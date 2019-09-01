@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+  <head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>光纤陀螺测试系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma-0.7.5/css/bulma.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% endblock %}
+  </head>
+
+  <body>
+    <section class="hero is-fullheight">
+      <div class="hero-head">
+        <nav class="navbar has-shadow">
+          <div class="container">
+            <div class="navbar-brand">
+              <a class="navbar-item is-size-4 has-text-primary">
+                光纤陀螺测试系统
+              </a>
+            </div>
+            <div class="navbar-menu">
+              <div class="navbar-end">
+                <span class="navbar-item">
+                  <a class="button is-primary">
+                    <span>
+                      新建测试
+                    </span>
+                  </a>
+                </span>
+              </div>
+            </div>
+        </nav>
+      </div>
+      <div class="hero-body" style="padding:0">
+        <div class="container">
+          <div class="columns">
+            <div class="column is-6">
+              {% block left %}
+              {% endblock %}
+            </div>
+            <div class="column is-6">
+              {% block right %}
+              {% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="{{ url_for('static', filename='js/Chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/all.js') }}"></script>
+
+
+  </body>
+
+</html>

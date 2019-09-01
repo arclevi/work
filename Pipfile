@@ -1,0 +1,17 @@
+[[source]]
+name = "tuna"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+verify_ssl = true
+
+[dev-packages]
+flask-migrate = "*"
+flask-shell-ipython = "*"
+
+[packages]
+flask = "*"
+flask-sqlalchemy = "*"
+flask-wtf = "*"
+python-dotenv = "*"
+
+[requires]
+python_version = "3.7"

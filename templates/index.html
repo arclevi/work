@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block left %}
+<table class="table is-hoverable is-fullwidth">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>日期</th>
+            <th>产品编号</th>
+            <th>测试温度</th>
+            <th>测试名称</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tr in test_records.items %}
+
+        <tr onclick=location.href="{{ url_for('index', page=test_records.page) }}?r={{ tr.id }}"
+            {% if tr.id == test_record.id %}class="has-text-primary" {%endif%}>
+            <td>{{ tr.id }}</td>
+            <td>{{ tr.date }}</td>
+            <td>{{ tr.serial_no }}</td>
+            <td>{{ tr.temperature }} ℃</td>
+            <td>{{ tr.title.split('℃')[1] }}</td>
+        </tr>
+
+        {% endfor %}
+        {% for empty in range(15 - test_records.items|length)%}
+        <tr class="has-text-white">
+            <td>{{ empty }}</td>
+            <td>{{ empty }}</td>
+            <td>{{ empty }}</td>
+            <td>{{ empty }}</td>
+            <td>{{ empty }}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+<nav class="level">
+    <div class="level-left">
+        <p class="level-item">第 {{ test_records.page }} 页</p>
+        <p class="level-item">
+            [共 {{ test_records.pages }} 页]
+        </p>
+        <p class="level-item">
+            {% if test_records.has_next %}
+            <a href="{{ url_for('index', page=test_records.page+1) }}" class="has-text-primary">下一页</a>
+            {% endif %}
+        </p>
+        <p class="level-item">
+            {% if test_records.has_prev %}
+            <a href="{{ url_for('index', page=test_records.page-1) }}" class="has-text-primary">上一页</a>
+            {% endif %}
+        </p>
+    </div>
+    <div class="level-right">
+        <p class="level-item">
+            <input class="input is-rounded is-small" type="text" placeholder="筛选">
+        </p>
+    </div>
+</nav>
+{% endblock %}
+
+
+{% block right %}
+<div class="tabs">
+    <ul>
+        <li class="is-active has-text-primary">
+            <a class="has-text-primary">
+                <span class="icon is-small">
+                    <i class="fas fa-print" aria-hidden="true"></i>
+                </span>打印
+            </a>
+        </li>
+        <li>
+            <a>
+                <span class="icon is-small">
+                    <i class="fas fa-chart-line" aria-hidden="true"></i>
+                </span>图形
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="box">
+    <article class="media">
+        <div class="media-content">
+            <div class="content">
+                <div class="columns is-centered">
+                    <div class="column has-text-weight-bold has-text-centered">
+                        <p class="is-size-5">
+                            {{ test_record.title.split('℃')[1] }} 记录单
+                        </p>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-half">
+                        产品编号：{{ test_record.serial_no }}
+                    </div>
+                    <div class="column is-half">
+                        日期: {{ test_record.date }}
+                    </div>
+
+                </div>
+            </div>
+            <table class="table is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>实验项目</th>
+                        <th>指标要求</th>
+                        <th>测试结果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if test_record.lp %}
+                    {% for lp in test_record.lp %}
+                    <tr>
+                        <td>零偏</td>
+                        <td></td>
+                        <td>{{ lp.lp }}</td>
+                    </tr>
+                    <tr>
+                        <td>零偏稳定性</td>
+                        <td></td>
+                        <td>{{ lp.lpwdx }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if test_record.bdys %}
+                    {% for bdys in test_record.bdys %}
+                    <tr>
+                        <td>标度因数</td>
+                        <td></td>
+                        <td>{{ bdys.bdys}}</td>
+                    </tr>
+                    <tr>
+                        <td>线性度（小于180)</td>
+                        <td></td>
+                        <td>{{ bdys.xxd1}}</td>
+                    </tr>
+                    <tr>
+                        <td>线性度（大于180)</td>
+                        <td></td>
+                        <td>{{ bdys.xxd2}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    {% if test_record.yzfbl %}
+                    {% for yzfbl in test_record.yzfbl %}
+                    <tr>
+                        <td>阈值</td>
+                        <td></td>
+                        <td>{{ yzfbl.yz}}</td>
+                    </tr>
+                    <tr>
+                        <td>分辨率</td>
+                        <td></td>
+                        <td>{{ yzfbl.fbl }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+
+                </tbody>
+            </table>
+
+        </div>
+    </article>
+</div>
+{% endblock %}
